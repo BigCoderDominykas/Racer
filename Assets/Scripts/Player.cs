@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
         if (horInput != 0)
         {
             vehicle.Turn(horInput);
+            vehicle.turnDirection = horInput;
         }
     }
 }
