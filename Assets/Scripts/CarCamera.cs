@@ -12,7 +12,7 @@ public class CarCamera : MonoBehaviour
     private void LateUpdate()
     {
         transform.position = target.transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.transform.rotation, 0.01f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, target.transform.rotation, 0.02f);
 
         cam.fieldOfView = Mathf.Lerp(60, 100, target.speedRatio);
     }

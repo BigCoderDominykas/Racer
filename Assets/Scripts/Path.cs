@@ -4,47 +4,54 @@ using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    public List<Transform> waypoints;
+    private Transform[] points;
 
-    private void Start()
+    private void Awake()
     {
-        waypoints = new List<Transform>(GetComponentsInChildren<Transform>());
-        waypoints.RemoveAt(0);
+        points = GetComponentsInChildren<Transform>()[1..];
     }
 
-    public int GetNextIndex(int i)
+    public Transform GetNextPoint(Vector3 position)
     {
-        if (i >= waypoints.Count - 1) return 0;
-        if (i < 0) return waypoints.Count - 1; 
-        else return i + 1;
+        int index = GetClosestIndex(position);
+        index++;
+        if (index >= points.Length) index = 0;
+        return points[index];
     }
 
-    public Vector3 GetWaypointPosition(int i)
+    public int GetClosestIndex(Vector3 position)
     {
-        if (i < 0 || i >= waypoints.Count) return Vector3.zero;
-        return waypoints[i].position;
-    }
+        float minDistance = float.MaxValue;
+        int minIndex = 0;
 
-    public int GetClosestWaypoint(Vector3 position)
-    {
-        int closestIndex = 0;
-        float closestDist = Vector3.Distance(position, waypoints[closestIndex].position);
-
-        for (int i = 1; i < waypoints.Count; i++)
+        for (int i = 0; i < points.Length; i++)
         {
-            float dist = Vector3.Distance(position, waypoints[i].position);
-            if (dist < closestDist)
+            float distance = Vector3.Distance(position, points[i].position);
+            if (distance < minDistance)
             {
-                closestIndex = i;
-                closestDist = dist;
+                minDistance = distance;
+                minIndex = i;
             }
         }
 
-        return closestIndex;
+        return minIndex;
     }
 
-    public Vector3 GetNextWaypoint(Vector3 position)
+    public Transform GetClosestPoint(Vector3 position)
     {
-        return Vector3.zero;
+        float closestDistance = float.MaxValue;
+        Transform closestPoint = null;
+
+        foreach (Transform point in points)
+        {
+            float distance = Vector3.Distance(position, point.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPoint = point;
+            }
+        }
+
+        return closestPoint;
     }
 }

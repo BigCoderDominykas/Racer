@@ -1,7 +1,11 @@
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public TMP_Text lapsText;
+    int lapsAmount = -1;
+
     Vehicle vehicle;
 
     private void Start()
@@ -27,5 +31,11 @@ public class Player : MonoBehaviour
             vehicle.Turn(horInput);
             vehicle.turnDirection = horInput;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        lapsAmount++;
+        lapsText.text = "Laps: " + lapsAmount;
     }
 }

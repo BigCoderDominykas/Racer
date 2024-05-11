@@ -31,6 +31,7 @@ public class Vehicle : MonoBehaviour
     public void Accelerate()
     {
         if (!isGrounded) return;
+        if (rb.velocity.magnitude >= maxSpeed) return;
         rb.velocity += transform.forward * acceleration * Time.deltaTime;
     }
 
